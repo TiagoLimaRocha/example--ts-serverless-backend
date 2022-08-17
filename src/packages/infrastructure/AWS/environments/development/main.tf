@@ -11,6 +11,16 @@ provider "aws" {
 
 data "aws_caller_identity" "current" {}
 
+##############
+# Lambdas Map
+##############
+variable "LAMBDAS" {
+  type = map(any)
+  default = {
+    "function_name" = "function description"
+  }
+}
+
 ###############################
 # Lambda Layer (storing on S3)
 ###############################
@@ -36,11 +46,13 @@ module "lambda_layer_s3" {
 ####################################################
 
 module "lambda_function" {
+  for_each = var.LAMBDAS
+
   source = "../../modules/lambda"
 
-  function_name          = "${random_pet.this.id}-[lambda_handler_name]"
-  description            = "Lambda function description"
-  handler                = "index.lambda_handler_name"
+  function_name          = "${random_pet.this.id}-${each.key}"
+  description            = each.value
+  handler                = "index.${each.key}"
   runtime                = "nodejs16.x"
   ephemeral_storage_size = 10240
   architectures          = ["x86_64"]
