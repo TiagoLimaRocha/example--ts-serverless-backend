@@ -14,10 +14,12 @@ data "aws_caller_identity" "current" {}
 ##############
 # Lambdas Map
 ##############
-variable "LAMBDAS" {
-  type = map(any)
-  default = {
-    "function_name" = "function description"
+locals {
+  LAMBDAS = {
+    type = map(any)
+    default = {
+      "function_name" = "function description"
+    }
   }
 }
 
@@ -46,7 +48,7 @@ module "lambda_layer_s3" {
 ####################################################
 
 module "lambda_function" {
-  for_each = var.LAMBDAS
+  for_each = local.LAMBDAS
 
   source = "../../modules/lambda"
 
@@ -61,7 +63,7 @@ module "lambda_function" {
   source_path = "../../../../lambdas/src/handlers"
 
   store_on_s3 = true
-  s3_bucket   = module.s3_bucket.s3_bucket_id
+  s3_bucket   = module.s3_bucket[each.key].s3_bucket_id
   s3_prefix   = "lambda-builds/"
 
   artifacts_dir = "${path.root}/.terraform/lambda-builds/"
@@ -207,9 +209,11 @@ resource "random_pet" "this" {
 }
 
 module "s3_bucket" {
+  for_each = local.LAMBDAS
+
   source = "../../modules/s3-bucket"
 
-  bucket        = "${random_pet.this.id}-bucket"
+  bucket        = "${each.key}-bucket"
   force_destroy = true
 }
 
