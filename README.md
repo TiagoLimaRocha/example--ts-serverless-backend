@@ -123,6 +123,7 @@ Here is a list of the most useful commands:
   npx prisma init # Setup a new Prisma project
   npx prisma generate # Generate artifacts (e.g. Prisma Client)
   npx prisma studio # Browse your data
+  
   npx prisma migrate dev --name <migration_name> # Create migrations from your Prisma schema, apply them to the database, generate artifacts (e.g. Prisma Client)
   npx prisma migrate deploy # Applies all pending migrations, and creates the database if it does not exist
   npx prisma migrate resolve # Allows you to solve migration history issues in production by marking a failed migration as already applied (supports baselining) or rolled back.
