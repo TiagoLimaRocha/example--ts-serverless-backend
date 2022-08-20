@@ -1,6 +1,12 @@
 # TS serverless backend
 
 Example repository of a REST serverless pet store API, using typescript and terraform.
+The `src` directory contains base configuration for all projects and the existing `packages` in the monorepo:
+
+- `infrastructure`: Where all terraform AWS configuration, setup and implementation lives
+- `lambdas`: Where all the lambda handler implementations exist.
+
+In the `_Documentation` folder there can be found the system architecture diagrams as well as the Domain Design diagrams.
 
 ## Requirements
 
