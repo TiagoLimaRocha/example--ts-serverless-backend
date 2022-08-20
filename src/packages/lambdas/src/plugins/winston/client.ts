@@ -1,6 +1,6 @@
 import { format, createLogger, transports } from 'winston';
 
-const { combine, timestamp, label, prettyPrint } = format;
+const { combine, timestamp, label, prettyPrint, splat } = format;
 const CATEGORY = 'petstore.aws.lambda.handler';
 
 const logger = createLogger({
@@ -10,6 +10,7 @@ const logger = createLogger({
     timestamp({
       format: 'MMM-DD-YYYY HH:mm:ss',
     }),
+    splat(),
     prettyPrint()
   ),
   transports: [new transports.Console()],
