@@ -10,11 +10,13 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["es2017", "dom", "ES2020.Promise"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "src/*": ["packages/lambdas/src/*"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
