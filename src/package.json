@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "serve": "npx nx run lambdas:serve"
+    "dev": "npx nx run lambdas:serve"
   },
   "private": true,
   "devDependencies": {

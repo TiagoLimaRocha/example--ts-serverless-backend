@@ -1,55 +1,25 @@
 # TS serverless backend
 
-
 Example repository of a REST serverless pet store API, using typescript and terraform.
-
-## Additional Resources
-
-- [.editorconfig file](https://editorconfig.org/)
-- [12 factor apps](https://12factor.net/)
-- [Immutable Web App](https://immutablewebapps.org/)
-- [asdf](https://asdf-vm.com)
-- [Frontend Checklist](https://github.com/thedaviddias/Front-End-Checklist)
-- [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules)
-- [language specific code blocks](https://help.github.com/articles/creating-and-highlighting-code-blocks/)
-- [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-- [Markdown Reference style link](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#links)
-- [Project Guidelines](https://github.com/elsewhencode/project-guidelines)
-- [VS CodeRecommended extensions](https://code.visualstudio.com/docs/editor/extension-gallery#_recommended-extensions)
-- [JavaScript Clean Code Guidelines](https://github.com/ryanmcdermott/clean-code-javascript)
 
 ## Requirements
 
-- [Docker]
-- ...etc
-
-<details>
-<summary>:warning: <b>IMPORTANT NOTES</b> :warning:</summary>
-
-- Use packages like [Homebrew], [docker], and [asdf]
-- List any global installs here - prefer using [asdf] and [homebrew]
-- Do not list frameworks and libraries. These should be included as project dependencies. [See Twelve-factor app - Dependencies](https://12factor.net/dependencies)
-
-</details>
+- asdf
+- nodejs (LTS Gallium)
+- terraform (V 1.2.5)
+- NX (Latest)
 
 ## Setup
 
-A quick introduction of the minimal setup you need to get a hello world up &
-running.
+The `lambdas` package is where the handler implementation for our AWS Lambda functions lie.
+To run it locally using an express server do:
 
 ```shell
-commands here
+npm install
+npx prisma init
+npx prisma generate
+npm run dev
 ```
-
-<details>
-<summary>:warning: <b>IMPORTANT NOTES</b> :warning:</summary>
-
-- Here you should say what actually happens when you execute the code above.
-- List any global installs and runtime setting here - prefer using [asdf] and [homebrew]
-- This should be simple and concise and repeatable.
-- Check with the team if Linux/Windows/Mac support is needed.
-
-</details>
 
 ## Developing
 
@@ -71,20 +41,6 @@ And state what happens step-by-step. If there is any virtual environment, local 
 - this should not list global dependencies
 
 </details>
-
-### (Optional) Building
-
-If your project needs some additional steps for the developer to build the
-project after some code changes, state them here. for example:
-
-```shell
-./configure
-make
-make install
-```
-
-Here again you should state what actually happens when the code above gets
-executed.
 
 ### Deploying
 
@@ -148,9 +104,25 @@ Give an example
 
 ## Api Reference
 
-If the api is external, link to api documentation. If not describe your api including authentication methods as well as explaining all the endpoints with their required parameters.
+You can find the API definition documented in the [Swagger Specification](https://app.swaggerhub.com/apis/TiagoLimaRocha/pet-store-api/1.0.0) page.
 
 ## Database
 
-- Explaining what database (and version) has been used. Provide docker-compose scripts
-- Documents your database design and schemas, relations etc...
+This project uses [Prisma](https://www.prisma.io/) as ORM, setup with the postgresql provider.
+The database must be generated first before any usage and subsequent migrations are all done via command line inputs. This open source library also comes with a browser GUI that allows you to manage your data manually.
+
+Here is a list of the most useful commands:
+
+```shell
+  npx prisma init # Setup a new Prisma project
+  npx prisma generate # Generate artifacts (e.g. Prisma Client)
+  npx prisma studio # Browse your data
+  npx prisma migrate dev --name <migration_name> # Create migrations from your Prisma schema, apply them to the database, generate artifacts (e.g. Prisma Client)
+  npx prisma migrate deploy # Applies all pending migrations, and creates the database if it does not exist
+  npx prisma migrate resolve # Allows you to solve migration history issues in production by marking a failed migration as already applied (supports baselining) or rolled back.
+  npx prisma migrate status # Looks up the migrations in /prisma/migrations/* folder and the entries in the _prisma_migrations table and compiles information about the state of the migrations in your database.
+
+  npx prisma db pull # Pull the schema from an existing database, updating the Prisma schema
+  npx prisma db push # Push the Prisma schema state to the database
+  prisma db execute --file <filename> --schema schema.prisma # Applies a SQL script to the database without interacting with the Prisma migrations table.
+```
