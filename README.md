@@ -1,7 +1,7 @@
 # TS serverless backend
 
 
-Example repository of a microservices serverless pet store API, using typescript and terraform.
+Example repository of a REST serverless pet store API, using typescript and terraform.
 
 ## Additional Resources
 
