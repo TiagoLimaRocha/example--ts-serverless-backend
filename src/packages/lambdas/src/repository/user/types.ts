@@ -1,3 +1,4 @@
-import { Prisma } from "@prisma/client";
-
-export type User =  Prisma.UserCreateInput;
+import { Prisma } from '@prisma/client';
+export interface User extends Prisma.UserCreateInput {
+  id: number;
+}

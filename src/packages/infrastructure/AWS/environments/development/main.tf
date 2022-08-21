@@ -11,7 +11,6 @@ provider "aws" {
 
 data "aws_caller_identity" "current" {}
 
-
 locals {
   name             = "pet-store-infrastructure--example"
   region           = "eu-west-2"
@@ -170,7 +169,7 @@ module "lambda_layer_s3" {
   description         = "Lambda layer (deployed from S3)"
   compatible_runtimes = ["nodejs16.x"]
 
-  source_path = "../../../../lambdas/src/handlers"
+  source_path = "../../../../lambdas/src/handlers/lambda"
 
   store_on_s3 = true
   s3_bucket   = module.s3_bucket.s3_bucket_id
@@ -194,7 +193,7 @@ module "lambda_function" {
   architectures          = ["x86_64"]
   publish                = true
 
-  source_path = "../../../../lambdas/src/handlers"
+  source_path = "../../../../lambdas/src/handlers/lambda"
 
   store_on_s3 = true
   s3_bucket   = module.s3_bucket[each.key].s3_bucket_id

@@ -1,3 +1,3 @@
 import createUser from './createUser';
 
-export { createUser };
+export default createUser;
