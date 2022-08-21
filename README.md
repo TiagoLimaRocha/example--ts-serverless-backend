@@ -142,16 +142,21 @@ The database must be generated first before any usage and subsequent migrations 
 Here is a list of the most useful commands:
 
 ```shell
-  npx prisma init # Setup a new Prisma project
-  npx prisma generate # Generate artifacts (e.g. Prisma Client)
-  npx prisma studio # Browse your data
-  
-  npx prisma migrate dev --name <migration_name> # Create migrations from your Prisma schema, apply them to the database, generate artifacts (e.g. Prisma Client)
-  npx prisma migrate deploy # Applies all pending migrations, and creates the database if it does not exist
-  npx prisma migrate resolve # Allows you to solve migration history issues in production by marking a failed migration as already applied (supports baselining) or rolled back.
-  npx prisma migrate status # Looks up the migrations in /prisma/migrations/* folder and the entries in the _prisma_migrations table and compiles information about the state of the migrations in your database.
+npx prisma init                                               # -> Setup a new Prisma project
+npx prisma generate                                           # -> Generate artifacts (e.g. Prisma Client)
+npx prisma studio                                             # -> Browse your data
 
-  npx prisma db pull # Pull the schema from an existing database, updating the Prisma schema
-  npx prisma db push # Push the Prisma schema state to the database
-  prisma db execute --file <filename> --schema schema.prisma # Applies a SQL script to the database without interacting with the Prisma migrations table.
+npx prisma migrate dev --name <migration_name>                # -> Create migrations from your Prisma schema, apply them to the database,
+                                                              # generate artifacts (e.g. Prisma Client)
+npx prisma migrate deploy                                     # -> Applies all pending migrations, and creates the database if it does not exist
+npx prisma migrate resolve                                    # -> Allows you to solve migration history issues in production by marking a failed
+                                                              # migration as already applied (supports baselining) or rolled back.
+npx prisma migrate status                                     # -> Looks up the migrations in /prisma/migrations/* folder and the entries in the
+                                                              # _prisma_migrations table and compiles information about the state of the migrations
+                                                              # in your database.
+
+npx prisma db pull                                            # -> Pull the schema from an existing database, updating the Prisma schema
+npx prisma db push                                            # -> Push the Prisma schema state to the database
+prisma db execute --file <filename> --schema schema.prisma    # -> Applies a SQL script to the database without interacting with the Prisma
+                                                              # migrations table.
 ```
