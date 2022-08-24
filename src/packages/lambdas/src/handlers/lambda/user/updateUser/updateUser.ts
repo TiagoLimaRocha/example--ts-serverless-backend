@@ -5,15 +5,15 @@ import { errorHandler, response } from 'src/libs/utils';
 import { User } from 'src/repository/user/types';
 import { SuccessCodes } from 'src/libs/utils/response/types';
 
-const createUser = async (
+const updateUser = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
     const userData: User = JSON.parse(event.body);
 
-    const result = await UserRepository.create(userData);
+    const result = await UserRepository.update(userData);
 
-    return response(SuccessCodes.CREATED, {
+    return response(SuccessCodes.OK, {
       user: result,
     });
   } catch (error) {
@@ -21,4 +21,4 @@ const createUser = async (
   }
 };
 
-export default createUser;
+export default updateUser;

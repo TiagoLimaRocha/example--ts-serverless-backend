@@ -1,3 +1,6 @@
 import { Without, XOR } from './types';
 
-export { Without, XOR };
+import isUserId from './isUserId';
+import isUsername from './isUsername';
+
+export { Without, XOR, isUserId, isUsername };

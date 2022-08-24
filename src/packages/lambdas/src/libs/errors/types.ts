@@ -1,5 +1,5 @@
 /**
- * Possible error codes enumerations
+ * Error codes enumerations
  * 
  * more info reguarding HTTP errors: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status
  */
