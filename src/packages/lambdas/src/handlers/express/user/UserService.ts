@@ -1,4 +1,4 @@
-import * as UserLambdas from 'src/handlers/lambda/user';
+import * as Lambdas from 'src/handlers/lambda';
 import { expressHandler } from 'src/libs/middleware/express';
 
 import { Request, Response } from 'express';
