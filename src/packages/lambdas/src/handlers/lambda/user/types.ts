@@ -13,7 +13,15 @@ export interface UserPathParameterUsername
   username: string;
 }
 
+export interface UserPathParametersList
+  extends APIGatewayProxyEventPathParameters {
+  offset: string;
+  pageSize: string;
+}
+
 export type UserPathParameters = XOR<
   UserPathParameterId,
   UserPathParameterUsername
 >;
+
+
