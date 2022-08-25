@@ -5,7 +5,7 @@ import * as path from 'path';
 import { logger } from 'src/plugins/winston';
 import { connector, Controllers } from 'swagger-routes-express';
 
-// import { getExport } from 'src/libs/middleware/api-gateway';
+import { getExport } from 'src/libs/middleware/api-gateway';
 
 const makeApp = (handlers?: Controllers): express.Express => {
   const app = express();
@@ -22,8 +22,7 @@ const makeApp = (handlers?: Controllers): express.Express => {
       onCreateRoute: (method, descriptor) => {
         const [path, ...handlers] = descriptor;
 
-        //  TODO:  switch to winston info log
-        console.log('created route', method, path, handlers);
+        logger.info('created route', method, path, handlers);
       },
     });
 
