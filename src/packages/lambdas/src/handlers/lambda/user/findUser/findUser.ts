@@ -20,7 +20,7 @@ const findUser = async (
   try {
     const pathParameters = event?.pathParameters || {};
 
-    const result = match(pathParameters)
+    const result = await match(pathParameters)
       .on(
         (pathParameters: UserPathParameters) => isUsername(pathParameters),
         async () => {
@@ -47,6 +47,10 @@ const findUser = async (
           ClientErrorCodes.UNPROCESSABLE_ENTITY
         );
       });
+
+    if (!result) {
+      throw new LambdaError('User not found', ClientErrorCodes.NOT_FOUND);
+    }
 
     return response(SuccessCodes.OK, {
       user: result,

@@ -2,10 +2,12 @@ import * as express from 'express';
 import * as YAML from 'yamljs';
 import * as path from 'path';
 
-import { logger } from 'src/plugins/winston';
 import { connector, Controllers } from 'swagger-routes-express';
 
-import { getExport } from 'src/libs/middleware/api-gateway';
+//  NOTE:  Use to pull the api spec from API Gateway
+// import { getExport } from 'src/libs/middleware/api-gateway';
+
+const PATH_TO_API_SPEC = './assets/api/api.yaml';
 
 const makeApp = (handlers?: Controllers): express.Express => {
   const app = express();
@@ -16,13 +18,13 @@ const makeApp = (handlers?: Controllers): express.Express => {
     //  NOTE:  Here we are using a spec yaml file directly, however we could switch out this call by
     //         a getExport call passing in the API ID from AWS API Gateway, thus exporting the api spec
     //         directly from the cloud provider
-    const apiSpec = YAML.load(path.resolve(__dirname, './assets/api/api.yaml'));
+    const apiSpec = YAML.load(path.resolve(__dirname, PATH_TO_API_SPEC));
 
     const connect = connector(handlers, apiSpec, {
       onCreateRoute: (method, descriptor) => {
         const [path, ...handlers] = descriptor;
 
-        logger.info('created route', method, path, handlers);
+        console.log('created route ->', method.toUpperCase(), path, handlers);
       },
     });
 

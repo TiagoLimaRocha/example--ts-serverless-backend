@@ -1,5 +1,5 @@
 import { UserRepository } from 'src/repository';
-import { prismaMock } from 'src/plugins/prisma';
+import prismaMock from 'src/plugins/prisma/singleton';
 
 import {
   MOCK_USERNAME,

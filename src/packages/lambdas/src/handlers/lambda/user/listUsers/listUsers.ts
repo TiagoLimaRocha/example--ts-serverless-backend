@@ -9,7 +9,7 @@ const listUsers = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
-    const { offset, pageSize } = event?.pathParameters || {};
+    const { offset, pageSize } = event?.queryStringParameters || {};
 
     const result: User[] = await UserRepository.list(
       parseInt(pageSize),

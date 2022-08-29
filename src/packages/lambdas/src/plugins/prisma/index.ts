@@ -1,4 +1,4 @@
 import prisma from './client';
-import prismaMock from './singleton';
+// import prismaMock from './singleton';
 
-export { prisma, prismaMock };
+export { prisma };

@@ -9,19 +9,14 @@ import mapExpressRequestToLambdaRequest from './mapExpressRequestToLambdaRequest
  * @param request Express request object
  * @param response Express response object
  */
-const expressHandler = (
+const expressHandler = async (
   lambdaFn: LambdaFn,
   request: Request,
   response: Response
 ) => {
   const lambdaRequest = mapExpressRequestToLambdaRequest(request);
 
-  lambdaFn(lambdaRequest, {}, (error, result) =>
-    response
-      .set(result?.headers ?? {})
-      .status(result.statusCode)
-      .send(result.body)
-  );
+  response.send(await lambdaFn(lambdaRequest));
 };
 
 export default expressHandler;
