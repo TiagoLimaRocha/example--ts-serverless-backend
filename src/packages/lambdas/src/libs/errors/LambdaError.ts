@@ -1,13 +1,14 @@
 import { ErrorCode } from './types';
 
-export class LambdaError extends Error {
-  public statusCode: ErrorCode = 400;
-  public name: string = "Lambda Error";
+const DEFAULT_STATUS_CODE = 400;
+class LambdaError extends Error {
+  public statusCode: ErrorCode = DEFAULT_STATUS_CODE;
+  public name: string = 'Lambda Error';
 
   constructor(message: string, statusCode?: ErrorCode) {
     super(message);
 
-    this.statusCode = statusCode;
+    this.statusCode = statusCode ?? DEFAULT_STATUS_CODE;
 
     Object.setPrototypeOf(this, LambdaError.prototype);
   }

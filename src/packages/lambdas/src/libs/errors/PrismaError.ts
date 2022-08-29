@@ -1,13 +1,15 @@
 import { ErrorCode } from './types';
 
-export class PrismaError extends Error {
-  public statusCode: ErrorCode = 400;
+const  DEFAULT_STATUS_CODE = 400;
+
+class PrismaError extends Error {
+  public statusCode: ErrorCode = DEFAULT_STATUS_CODE;
   public name: string = 'Prisma Error';
 
   constructor(message: string, statusCode?: ErrorCode) {
     super(message);
 
-    this.statusCode = statusCode;
+    this.statusCode = statusCode ?? DEFAULT_STATUS_CODE;
 
     Object.setPrototypeOf(this, PrismaError.prototype);
   }
