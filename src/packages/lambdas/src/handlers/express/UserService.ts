@@ -1,5 +1,5 @@
 import * as Lambdas from 'src/handlers/lambda';
-import { expressHandler, asyncWrap } from 'src/libs/middleware/express';
+import { expressHandler } from 'src/libs/middleware/express';
 
 import { Request, Response } from 'express';
 
