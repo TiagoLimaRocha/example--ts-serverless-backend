@@ -1,18 +1,45 @@
 import { prisma } from 'src/plugins/prisma';
-import { User, DEFAULT_OFFSET, DEFAULT_PAGE_SIZE } from './types';
+import { match } from 'src/libs/utils';
+
+import {
+  User,
+  UpdateIdentifierArgument,
+  DEFAULT_OFFSET,
+  DEFAULT_PAGE_SIZE,
+} from './types';
 
 export const create = (user: User): Promise<User> =>
   prisma.user.create({
     data: user,
   });
 
-export const update = (user: User): Promise<User> =>
-  prisma.user.update({
-    where: {
-      email: user.email,
+export const update = (
+  user: User,
+  identifier: UpdateIdentifierArgument
+): Promise<User> => {
+  const where = match(identifier)
+    .on(
+      (identifier: UpdateIdentifierArgument) => typeof identifier === 'string',
+      () => ({
+        username: identifier,
+      })
+    )
+    .on(
+      (identifier: UpdateIdentifierArgument) => typeof identifier === 'number',
+      () => ({
+        id: identifier,
+      })
+    )
+    .otherwise(() => {});
+
+  return prisma.user.update({
+    where,
+    data: {
+      ...user,
+      createdAt: new Date().toISOString(),
     },
-    data: user,
   });
+};
 
 export const getById = (id: number): Promise<User> =>
   prisma.user.findFirst({
