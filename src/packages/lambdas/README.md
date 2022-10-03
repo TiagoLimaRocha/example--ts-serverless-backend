@@ -70,7 +70,8 @@ Recommended further reading
 - [Creating a local testing environment for AWS Lambda with Express and Typescript](https://medium.com/doorr/creating-a-local-testing-environment-for-aws-lambda-with-express-and-typescript-90984a1d7071)
 - [Unit testing with Prisma](https://www.prisma.io/docs/guides/testing/unit-testing)
 - [Prisma CRUD](https://www.prisma.io/docs/concepts/components/prisma-client/crud#update)
-- [Swagger API Spec](https://app.swaggerhub.com/apis/TiagoLimaRocha/pet-store-api/1.0.0#/user/createUser)
+- [Swagger API Spec](https://app.swaggerhub.com/apis/TLRPersonalSpace/PetStore/1.1.0#/)
+- [OpenAPI Guide](https://swagger.io/docs/specification/about/)
 - [DDD](https://alejandrome.github.io/ddd-essentials-1)
 - [Repository Pattern](https://dev.to/fyapy/repository-pattern-with-typescript-and-nodejs-25da)
 

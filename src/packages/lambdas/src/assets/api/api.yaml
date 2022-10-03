@@ -13,7 +13,7 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 1.0.0
+  version: 1.1.0
 externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
@@ -141,7 +141,7 @@ paths:
         default:
           description: successful operation
 
-  /user/{userId}:
+  /user/id/{userId}:
     get:
       tags:
         - user
@@ -218,7 +218,7 @@ paths:
         '404':
           description: User not found
 
-  /user/{username}:
+  /user/username/{username}:
     get:
       tags:
         - user

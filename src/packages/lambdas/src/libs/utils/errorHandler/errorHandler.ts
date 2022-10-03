@@ -25,7 +25,7 @@ const errorHandler = (
   event: APIGatewayEvent,
   statusCode?: ErrorCode
 ) => {
-  logger.error(error.name, { error: error.message, event });
+  logger.error({ error, event });
 
   const matchedError = match(error)
     .on(
