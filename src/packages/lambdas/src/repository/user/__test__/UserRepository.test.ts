@@ -1,4 +1,4 @@
-import { UserRepository } from 'src/repository';
+import * as UserRepository from 'src/repository/user';
 import prismaMock from 'src/plugins/prisma/singleton';
 
 import {
@@ -9,13 +9,15 @@ import {
 } from 'src/repository/user/__mocks__';
 
 describe('UserRepository', () => {
-  it('should create a new user', async () => {
-    // @ts-ignore
-    prismaMock.user.create.mockResolvedValue(MOCK_USER);
+  describe('create', () => {
+    it('should create a new user', async () => {
+      // @ts-ignore
+      prismaMock.user.create.mockResolvedValue(MOCK_USER);
 
-    await expect(UserRepository.create(MOCK_USER)).resolves.toEqual({
-      id: 1,
-      ...MOCK_USER,
+      await expect(UserRepository.create(MOCK_USER)).resolves.toEqual({
+        id: 1,
+        ...MOCK_USER,
+      });
     });
   });
 });
