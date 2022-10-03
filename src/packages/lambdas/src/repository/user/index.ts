@@ -30,7 +30,7 @@ export const update = (
         id: identifier,
       })
     )
-    .otherwise(() => {});
+    .otherwise(() => null);
 
   return prisma.user.update({
     where,
@@ -73,8 +73,8 @@ export const list = async (
   pageSize: number,
   offset: number
 ): Promise<User[]> => {
-  const take = offset || DEFAULT_OFFSET;
-  const skip = pageSize || DEFAULT_PAGE_SIZE;
+  const take = pageSize || DEFAULT_PAGE_SIZE;
+  const skip = offset || DEFAULT_OFFSET;
 
   const users = await prisma.user.findMany({
     take,

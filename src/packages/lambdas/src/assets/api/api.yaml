@@ -146,7 +146,7 @@ paths:
       tags:
         - user
       summary: Get user by user id
-      operationId: findUser
+      operationId: findUserById
       parameters:
         - name: userId
           in: path
@@ -175,7 +175,7 @@ paths:
         - user
       summary: Updated user
       description: This can only be done by the logged in user.
-      operationId: updateUser
+      operationId: updateUserById
       parameters:
         - name: userId
           in: path
@@ -202,7 +202,7 @@ paths:
         - user
       summary: Delete user
       description: This can only be done by the logged in user.
-      operationId: deleteUser
+      operationId: deleteUserById
       parameters:
         - name: userId
           in: path
@@ -223,7 +223,7 @@ paths:
       tags:
         - user
       summary: Get user by user name
-      operationId: findUser
+      operationId: findUserByUsername
       parameters:
         - name: username
           in: path
@@ -252,7 +252,7 @@ paths:
         - user
       summary: Updated user
       description: This can only be done by the logged in user.
-      operationId: updateUser
+      operationId: updateUserByUsername
       parameters:
         - name: username
           in: path
@@ -279,7 +279,7 @@ paths:
         - user
       summary: Delete user
       description: This can only be done by the logged in user.
-      operationId: deleteUser
+      operationId: deleteUserByUsername
       parameters:
         - name: username
           in: path
@@ -288,7 +288,7 @@ paths:
           style: simple
           explode: false
           schema:
-          type: string
+            type: string
       responses:
         '400':
           description: Invalid username supplied
