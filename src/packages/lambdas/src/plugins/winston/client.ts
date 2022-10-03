@@ -22,7 +22,7 @@ const logger = createLogger({
     timestamp({
       format: 'MMM-DD-YYYY HH:mm:ss',
     }),
-    prettyPrint(),    // Use in development
+    prettyPrint() // Use in development
     // customFormat   // Use in production
   ),
   transports: [new transports.Console()],

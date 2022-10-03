@@ -1,6 +1,6 @@
 import { ErrorCode } from './types';
 
-const  DEFAULT_STATUS_CODE = 400;
+const DEFAULT_STATUS_CODE = 400;
 
 class PrismaError extends Error {
   public statusCode: ErrorCode = DEFAULT_STATUS_CODE;

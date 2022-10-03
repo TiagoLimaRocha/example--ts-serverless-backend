@@ -27,7 +27,6 @@ const errorHandler = (
 ) => {
   logger.error(error.name, { error: error.message, event });
 
-
   const matchedError = match(error)
     .on(
       (error: Error) => error.name === 'Lambda Error',

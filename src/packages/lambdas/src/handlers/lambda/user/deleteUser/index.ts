@@ -55,4 +55,3 @@ export const deleteUser = async (
     return errorHandler(error, event);
   }
 };
-

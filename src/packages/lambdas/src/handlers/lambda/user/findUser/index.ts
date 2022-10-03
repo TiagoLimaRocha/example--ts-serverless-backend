@@ -59,4 +59,3 @@ export const findUser = async (
     return errorHandler(error, event);
   }
 };
-
