@@ -70,33 +70,6 @@ npm run dev
 
 In the above sequence of commands we install all the dependencies, initialise prisma and generate the database, and finally we start the express server.
 
-### Deploying
-
-Give instructions on how to build and release a new version.
-
-In case there's some step you have to take that publishes this project to a
-server, this is the right time to state it.
-
-Always try prioritise a CI/CD pipeline and build artifacts that are optimised generic environments.
-
-```shell
-packagemanager deploy your-project -s server.com -u username -p password
-```
-
-And again you'd need to tell what the previous code actually does.
-
-<details>
-<summary>:warning: <b>IMPORTANT NOTES</b> :warning:</summary>
-
-- If this uses ci/cd link out to it along with the environments.
-- [12 factor apps](https://12factor.net/)
-- [Immutable Web App](https://immutablewebapps.org/)
-- Make use of badges where possible
-  - [circleci status-badges](https://circleci.com/docs/2.0/status-badges)
-  - [Github Workflow status badge](https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/adding-a-workflow-status-badge)
-
-</details>
-
 ## Versioning
 
 We can maybe use [SemVer](http://semver.org/) for versioning. For the versions available, see the [link to tags on this repository](/tags).
