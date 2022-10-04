@@ -65,6 +65,8 @@ npm run deploy
 
 You can find the API definition documented in the [Swagger Specification](https://app.swaggerhub.com/apis/TLRPersonalSpace/PetStore/1.1.0) page.
 
+And [here](https://www.getpostman.com/collections/7f33955632e654d9c37d) is the Postman collection.
+
 ## Database
 
 This project uses [Prisma](https://www.prisma.io/) as ORM, setup with the postgresql provider.
