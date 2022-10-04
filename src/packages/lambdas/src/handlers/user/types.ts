@@ -23,5 +23,3 @@ export type UserPathParameters = XOR<
   UserPathParameterId,
   UserPathParameterUsername
 >;
-
-

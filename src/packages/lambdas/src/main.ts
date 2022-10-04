@@ -1,7 +1,6 @@
 import { makeApp } from 'src/plugins/express';
-import { UserService } from 'src/handlers/express';
 
-const app = makeApp(UserService);
+const app = makeApp();
 
 app.get('/welcome', (req, res) => {
   res.send({ message: 'Welcome to Pet Store lambdas!' });

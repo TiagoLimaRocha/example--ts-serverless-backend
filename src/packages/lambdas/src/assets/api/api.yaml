@@ -294,6 +294,7 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+
 components:
   schemas:
     Order:

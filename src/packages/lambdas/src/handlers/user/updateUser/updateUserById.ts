@@ -5,7 +5,7 @@ import {
   response,
   getData,
   match,
-  isUsername,
+  isUserId,
 } from 'src/libs/utils';
 
 import { LambdaError } from 'src/libs/errors';
@@ -13,10 +13,10 @@ import { LambdaError } from 'src/libs/errors';
 import { User } from 'src/repository/user/types';
 import { SuccessCodes } from 'src/libs/utils/response/types';
 import { ClientErrorCodes } from 'src/libs/errors/types';
-import { UserPathParameters } from 'src/handlers/lambda/user/types';
+import { UserPathParameters } from 'src/handlers/user/types';
 import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
 
-export const updateUserByUsername = async (
+export const updateUserById = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
@@ -24,8 +24,8 @@ export const updateUserByUsername = async (
 
     const identifier = match(pathParameters)
       .on(
-        (pathParameters: UserPathParameters) => isUsername(pathParameters),
-        () => pathParameters.username
+        (pathParameters: UserPathParameters) => isUserId(pathParameters),
+        () => parseInt(pathParameters.userId)
       )
       .otherwise(() => {
         throw new LambdaError(

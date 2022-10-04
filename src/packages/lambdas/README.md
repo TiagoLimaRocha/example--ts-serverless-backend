@@ -111,6 +111,7 @@ Recommended further reading
 - [x] Custom exeption creation
 - [x] Postman collection setup
 - [x] Configured Jest
+- [x] Dinamically generate express routes from the OpenApi Specification document :rocket:
 
 ---
 

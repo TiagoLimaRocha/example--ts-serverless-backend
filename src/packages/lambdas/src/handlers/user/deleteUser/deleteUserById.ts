@@ -6,19 +6,19 @@ import { errorHandler, response, match, isUserId } from 'src/libs/utils';
 import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
 import { ClientErrorCodes } from 'src/libs/errors/types';
 import { SuccessCodes } from 'src/libs/utils/response/types';
-import { UserPathParameters } from 'src/handlers/lambda/user/types';
+import { UserPathParameters } from 'src/handlers/user/types';
 
-export const findUserById = async (
+export const deleteUserById = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
     const pathParameters = event?.pathParameters || {};
 
-    const result = await match(pathParameters)
+    const result = match(pathParameters)
       .on(
         (pathParameters: UserPathParameters) => isUserId(pathParameters),
         async () => {
-          const result = await UserRepository.getById(
+          const result = await UserRepository.deleteById(
             parseInt(pathParameters.userId)
           );
 
@@ -31,10 +31,6 @@ export const findUserById = async (
           ClientErrorCodes.UNPROCESSABLE_ENTITY
         );
       });
-
-    if (!result) {
-      throw new LambdaError('User not found', ClientErrorCodes.NOT_FOUND);
-    }
 
     return response(SuccessCodes.OK, {
       user: result,

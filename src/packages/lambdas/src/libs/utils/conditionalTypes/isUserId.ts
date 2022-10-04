@@ -1,7 +1,7 @@
 import {
   UserPathParameters,
   UserPathParameterId,
-} from 'src/handlers/lambda/user/types';
+} from 'src/handlers/user/types';
 
 const isUserId = (
   pathParameters: UserPathParameters
