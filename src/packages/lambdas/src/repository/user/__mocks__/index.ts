@@ -4,8 +4,6 @@ export const MOCK_USERNAME = 'mock_user';
 
 export const MOCK_USER_ID = 1;
 
-const createdAt = new Date().toISOString();
-
 export const MOCK_USER: User = {
   id: 1,
   email: 'mock@email.com',
@@ -13,7 +11,6 @@ export const MOCK_USER: User = {
   firstName: 'mock_first_name',
   lastName: 'mock_last_name',
   phone: '0000000000',
-  createdAt: createdAt.toString(),
 };
 
 export const MOCK_USER_LIST: User[] = [...Array(10).keys()].map(
