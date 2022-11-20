@@ -1,25 +1,25 @@
 import * as UserRepository from 'src/repository/user';
 import { LambdaError } from 'src/libs/errors';
 
-import { errorHandler, response, match, isUserId } from 'src/libs/utils';
+import { errorHandler, response, match, isUsername } from 'src/libs/utils';
 
 import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
 import { ClientErrorCodes } from 'src/libs/errors/types';
 import { SuccessCodes } from 'src/libs/utils/response/types';
 import { UserPathParameters } from 'src/handlers/user/types';
 
-export const deleteUserById = async (
+export const findUserByUsername = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
     const pathParameters = event?.pathParameters || {};
 
-    const result = match(pathParameters)
+    const result = await match(pathParameters)
       .on(
-        (pathParameters: UserPathParameters) => isUserId(pathParameters),
+        (pathParameters: UserPathParameters) => isUsername(pathParameters),
         async () => {
-          const result = await UserRepository.deleteById(
-            parseInt(pathParameters.userId)
+          const result = await UserRepository.get(
+            pathParameters.username
           );
 
           return result;
@@ -31,6 +31,10 @@ export const deleteUserById = async (
           ClientErrorCodes.UNPROCESSABLE_ENTITY
         );
       });
+
+    if (!result) {
+      throw new LambdaError('User not found', ClientErrorCodes.NOT_FOUND);
+    }
 
     return response(SuccessCodes.OK, {
       user: result,

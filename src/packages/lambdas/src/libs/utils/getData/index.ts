@@ -1,3 +1,6 @@
-import getData from './getData';
+import { RequestBody } from './types';
 
-export { getData };
+export const getData = (body: RequestBody) => {
+  return typeof body === 'string' ? JSON.parse(body) : body;
+};
+

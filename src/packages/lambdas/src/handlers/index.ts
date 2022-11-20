@@ -1,16 +1,8 @@
-import { createUser } from 'src/handlers/user/createUser';
-
-import { updateUserById } from 'src/handlers/user/updateUser';
-import { updateUserByUsername } from 'src/handlers/user/updateUser';
-
-import {
-  deleteUserById,
-  deleteUserByUsername,
-} from 'src/handlers/user/deleteUser';
-
-import { findUserById, findUserByUsername } from 'src/handlers/user/findUser';
-
-import { listUsers } from 'src/handlers/user/listUsers';
+import { createUser } from 'src/handlers/user/create';
+import { updateUserById, updateUserByUsername } from 'src/handlers/user/update';
+import { deleteUserById, deleteUserByUsername } from 'src/handlers/user/delete';
+import { findUserById, findUserByUsername } from 'src/handlers/user/find';
+import { listUsers } from 'src/handlers/user/list';
 
 export {
   createUser,

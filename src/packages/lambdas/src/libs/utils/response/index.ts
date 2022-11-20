@@ -1,3 +1,6 @@
-import response from './response';
+import { StatusCode } from './types';
 
-export { response };
+export const response = <T>(statusCode: StatusCode, payload: T) => ({
+  statusCode,
+  body: JSON.stringify(payload),
+});

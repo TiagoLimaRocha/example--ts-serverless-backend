@@ -8,17 +8,17 @@ import { ClientErrorCodes } from 'src/libs/errors/types';
 import { SuccessCodes } from 'src/libs/utils/response/types';
 import { UserPathParameters } from 'src/handlers/user/types';
 
-export const findUserByUsername = async (
+export const deleteUserByUsername = async (
   event: APIGatewayEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
     const pathParameters = event?.pathParameters || {};
 
-    const result = await match(pathParameters)
+    const result = match(pathParameters)
       .on(
         (pathParameters: UserPathParameters) => isUsername(pathParameters),
         async () => {
-          const result = await UserRepository.getByName(
+          const result = await UserRepository.__delete(
             pathParameters.username
           );
 
@@ -31,10 +31,6 @@ export const findUserByUsername = async (
           ClientErrorCodes.UNPROCESSABLE_ENTITY
         );
       });
-
-    if (!result) {
-      throw new LambdaError('User not found', ClientErrorCodes.NOT_FOUND);
-    }
 
     return response(SuccessCodes.OK, {
       user: result,
