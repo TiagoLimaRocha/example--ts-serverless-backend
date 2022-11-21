@@ -28,11 +28,11 @@
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
     "jest": "27.5.1",
-    "jest-mock-extended": "^2.0.7",
+    "jest-mock-extended": "^2.0.9",
     "nx": "14.5.6",
     "openapi-types": "^12.0.0",
     "prettier": "^2.6.2",
-    "prisma": "^4.2.1",
+    "prisma": "^4.6.1",
     "swagger-routes-express": "^3.3.2",
     "ts-jest": "27.1.4",
     "ts-node": "10.9.1",
@@ -40,7 +40,7 @@
     "yamljs": "^0.3.0"
   },
   "dependencies": {
-    "@prisma/client": "^4.2.1",
+    "@prisma/client": "^4.6.1",
     "aws-sdk": "^2.1198.0",
     "es6-promise": "^4.2.8",
     "express": "^4.18.1",
