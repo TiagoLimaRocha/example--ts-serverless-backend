@@ -1,10 +1,10 @@
-import { mockedUserRepository } from 'src/repository/user/__mocks__/UserRepository.mock';
-
-import { MOCK_USER_LIST } from 'src/repository/user/__mocks__';
+import  {
+  mockedUserRepository,
+  MOCK_USER_LIST,
+  MOCK_USER,
+} from 'src/repository/user/__mocks__/UserRepository.mock';
 
 const ARBITRARY_ID = 9999;
-
-const MOCK_USER = MOCK_USER_LIST[0];
 
 describe('mockedUserRepository', () => {
   describe('create', () => {
