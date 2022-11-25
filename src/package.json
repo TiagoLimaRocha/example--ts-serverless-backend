@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "npx nx run lambdas:serve",
     "test": "npx nx test lambdas",
+    "test:file": "npx nx test --test-file",
     "format": "npx nx format:write"
   },
   "private": true,

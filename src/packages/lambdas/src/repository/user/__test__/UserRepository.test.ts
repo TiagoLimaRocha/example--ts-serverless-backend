@@ -25,12 +25,12 @@ describe('mockedUserRepository', () => {
     test('should NOT create a new user if email already exists', async () => {
       mockedUserRepository.create.mockRejectedValue(new Error());
 
-      MOCK_USER_LIST[0].id = ARBITRARY_ID;
+      MOCK_USER.id = ARBITRARY_ID;
 
       await expect(mockedUserRepository.create(MOCK_USER)).rejects.toThrow();
     });
 
-    test('should NOT create a new user if user name already exists', async () => {
+    test('should NOT create a new user if username already exists', async () => {
       mockedUserRepository.create.mockRejectedValue(new Error());
 
       MOCK_USER.id = ARBITRARY_ID;

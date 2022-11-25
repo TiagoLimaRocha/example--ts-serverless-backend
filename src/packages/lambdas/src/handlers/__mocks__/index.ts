@@ -1,4 +1,4 @@
-import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
+import { APIGatewayEvent } from 'aws-lambda';
 import { mockDeep } from 'jest-mock-extended';
 
 export const MOCK_EVENT = mockDeep<APIGatewayEvent>();

@@ -14,7 +14,7 @@ export const deleteUserByUsername = async (
   try {
     const pathParameters = event?.pathParameters || {};
 
-    const result = match(pathParameters)
+    const result = await match(pathParameters)
       .on(
         (pathParameters: UserPathParameters) => isUsername(pathParameters),
         async () => {
