@@ -15,7 +15,7 @@ import { errorHandler, response, match, isUsername } from 'src/libs/utils';
 
 const mockedDeleteUserByUsername: jest.Mock = jest.fn();
 
-describe('Create User Lambda', () => {
+describe('deleteUserByUsername', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
 

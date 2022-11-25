@@ -9,33 +9,28 @@ import { LambdaError } from 'src/libs/errors';
 import { SuccessCodes } from 'src/libs/utils/response/types';
 import { ClientErrorCodes } from 'src/libs/errors/types';
 import { UserPathParameters } from 'src/handlers/user/types';
+import { User } from 'src/repository/user/types';
 import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
 
-import { errorHandler, response, match, isUserId } from 'src/libs/utils';
+import { errorHandler, response, match, isUserId, getData } from 'src/libs/utils';
 
-const mockedDeleteUserById: jest.Mock = jest.fn();
+const mockedUpdateUserById: jest.Mock = jest.fn();
 
-describe('deleteUserById', () => {
+describe('updateUserById', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
 
     MOCK_EVENT.body = JSON.stringify(MOCK_USER);
 
-    mockedDeleteUserById.mockImplementation(
+    mockedUpdateUserById.mockImplementation(
       async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
         try {
-          const pathParameters = event?.pathParameters || {};
-
-          const result = await match(pathParameters)
+          const { body, pathParameters } = event;
+      
+          const identifier = await match(pathParameters)
             .on(
               (pathParameters: UserPathParameters) => isUserId(pathParameters),
-              async () => {
-                const result = await mockedUserRepository.__delete(
-                  parseInt(pathParameters.userId)
-                );
-
-                return result;
-              }
+              () => parseInt(pathParameters.userId)
             )
             .otherwise(() => {
               throw new LambdaError(
@@ -43,7 +38,11 @@ describe('deleteUserById', () => {
                 ClientErrorCodes.UNPROCESSABLE_ENTITY
               );
             });
-
+      
+          const userData: User = getData(body);
+      
+          const result = await mockedUserRepository.update(userData, identifier);
+      
           return response(SuccessCodes.OK, {
             user: result,
           });
@@ -54,25 +53,25 @@ describe('deleteUserById', () => {
     );
   });
 
-  test('should delete an existing user by its uid', async () => {
-    mockedUserRepository.__delete.mockResolvedValue(MOCK_USER);
+  test('should update an existing user by its uid', async () => {
+    mockedUserRepository.update.mockResolvedValue(MOCK_USER);
 
     MOCK_EVENT.pathParameters = { userId: MOCK_USER.id.toString() };
 
     MOCK_RESPONSE.body = JSON.stringify({ user: MOCK_USER });
     MOCK_RESPONSE.statusCode = SuccessCodes.OK;
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedUpdateUserById(MOCK_EVENT)).resolves.toEqual(
       MOCK_RESPONSE
     );
   });
 
-  test('should catch an error when trying to delete a non-existant uid', async () => {
-    mockedUserRepository.__delete.mockRejectedValue(new Error());
+  test('should catch an error when trying to update a non-existant uid', async () => {
+    mockedUserRepository.update.mockRejectedValue(new Error());
 
     MOCK_EVENT.pathParameters = { userId: MOCK_USER.id.toString() };
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedUpdateUserById(MOCK_EVENT)).resolves.toEqual(
       MOCK_ERROR_HANDLER_RETURN_VALUE
     );
   });
@@ -86,7 +85,7 @@ describe('deleteUserById', () => {
     MOCK_ERROR_HANDLER_RETURN_VALUE.statusCode =
       ClientErrorCodes.UNPROCESSABLE_ENTITY;
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedUpdateUserById(MOCK_EVENT)).resolves.toEqual(
       MOCK_ERROR_HANDLER_RETURN_VALUE
     );
   });
@@ -100,7 +99,7 @@ describe('deleteUserById', () => {
     MOCK_ERROR_HANDLER_RETURN_VALUE.statusCode =
       ClientErrorCodes.UNPROCESSABLE_ENTITY;
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedUpdateUserById(MOCK_EVENT)).resolves.toEqual(
       MOCK_ERROR_HANDLER_RETURN_VALUE
     );
   });

@@ -11,27 +11,28 @@ import { ClientErrorCodes } from 'src/libs/errors/types';
 import { UserPathParameters } from 'src/handlers/user/types';
 import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
 
-import { errorHandler, response, match, isUserId } from 'src/libs/utils';
+import { errorHandler, response, match, isUsername } from 'src/libs/utils';
 
-const mockedDeleteUserById: jest.Mock = jest.fn();
+const mockedFindUserByUsername: jest.Mock = jest.fn();
 
-describe('deleteUserById', () => {
+describe('findUserByUsername', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
 
     MOCK_EVENT.body = JSON.stringify(MOCK_USER);
 
-    mockedDeleteUserById.mockImplementation(
+    mockedFindUserByUsername.mockImplementation(
       async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
         try {
           const pathParameters = event?.pathParameters || {};
 
           const result = await match(pathParameters)
             .on(
-              (pathParameters: UserPathParameters) => isUserId(pathParameters),
+              (pathParameters: UserPathParameters) =>
+                isUsername(pathParameters),
               async () => {
-                const result = await mockedUserRepository.__delete(
-                  parseInt(pathParameters.userId)
+                const result = await mockedUserRepository.get(
+                  parseInt(pathParameters.username)
                 );
 
                 return result;
@@ -44,6 +45,10 @@ describe('deleteUserById', () => {
               );
             });
 
+          if (!result) {
+            throw new LambdaError('User not found', ClientErrorCodes.NOT_FOUND);
+          }
+
           return response(SuccessCodes.OK, {
             user: result,
           });
@@ -54,25 +59,25 @@ describe('deleteUserById', () => {
     );
   });
 
-  test('should delete an existing user by its uid', async () => {
-    mockedUserRepository.__delete.mockResolvedValue(MOCK_USER);
+  test('should delete an existing user by its username', async () => {
+    mockedUserRepository.get.mockResolvedValue(MOCK_USER);
 
-    MOCK_EVENT.pathParameters = { userId: MOCK_USER.id.toString() };
+    MOCK_EVENT.pathParameters = { username: MOCK_USER.username };
 
     MOCK_RESPONSE.body = JSON.stringify({ user: MOCK_USER });
     MOCK_RESPONSE.statusCode = SuccessCodes.OK;
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedFindUserByUsername(MOCK_EVENT)).resolves.toEqual(
       MOCK_RESPONSE
     );
   });
 
-  test('should catch an error when trying to delete a non-existant uid', async () => {
-    mockedUserRepository.__delete.mockRejectedValue(new Error());
+  test('should catch an error when trying to delete a non-existant username', async () => {
+    mockedUserRepository.get.mockRejectedValue(new Error());
 
-    MOCK_EVENT.pathParameters = { userId: MOCK_USER.id.toString() };
+    MOCK_EVENT.pathParameters = { username: MOCK_USER.username };
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedFindUserByUsername(MOCK_EVENT)).resolves.toEqual(
       MOCK_ERROR_HANDLER_RETURN_VALUE
     );
   });
@@ -86,7 +91,7 @@ describe('deleteUserById', () => {
     MOCK_ERROR_HANDLER_RETURN_VALUE.statusCode =
       ClientErrorCodes.UNPROCESSABLE_ENTITY;
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedFindUserByUsername(MOCK_EVENT)).resolves.toEqual(
       MOCK_ERROR_HANDLER_RETURN_VALUE
     );
   });
@@ -100,7 +105,22 @@ describe('deleteUserById', () => {
     MOCK_ERROR_HANDLER_RETURN_VALUE.statusCode =
       ClientErrorCodes.UNPROCESSABLE_ENTITY;
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedFindUserByUsername(MOCK_EVENT)).resolves.toEqual(
+      MOCK_ERROR_HANDLER_RETURN_VALUE
+    );
+  });
+
+  test('should catch an error when user not found', async () => {
+    mockedUserRepository.get.mockResolvedValue(null);
+
+    MOCK_EVENT.pathParameters = { username: MOCK_USER.username };
+
+    MOCK_ERROR_HANDLER_RETURN_VALUE.body = JSON.stringify({
+      error: 'User not found',
+    });
+    MOCK_ERROR_HANDLER_RETURN_VALUE.statusCode = ClientErrorCodes.NOT_FOUND;
+
+    await expect(mockedFindUserByUsername(MOCK_EVENT)).resolves.toEqual(
       MOCK_ERROR_HANDLER_RETURN_VALUE
     );
   });

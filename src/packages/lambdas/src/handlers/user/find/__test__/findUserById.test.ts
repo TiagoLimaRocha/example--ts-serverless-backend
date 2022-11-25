@@ -13,15 +13,15 @@ import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
 
 import { errorHandler, response, match, isUserId } from 'src/libs/utils';
 
-const mockedDeleteUserById: jest.Mock = jest.fn();
+const mockedFindUserById: jest.Mock = jest.fn();
 
-describe('deleteUserById', () => {
+describe('findUserById', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
 
     MOCK_EVENT.body = JSON.stringify(MOCK_USER);
 
-    mockedDeleteUserById.mockImplementation(
+    mockedFindUserById.mockImplementation(
       async (event: APIGatewayEvent): Promise<APIGatewayProxyResult> => {
         try {
           const pathParameters = event?.pathParameters || {};
@@ -30,7 +30,7 @@ describe('deleteUserById', () => {
             .on(
               (pathParameters: UserPathParameters) => isUserId(pathParameters),
               async () => {
-                const result = await mockedUserRepository.__delete(
+                const result = await mockedUserRepository.get(
                   parseInt(pathParameters.userId)
                 );
 
@@ -44,6 +44,10 @@ describe('deleteUserById', () => {
               );
             });
 
+          if (!result) {
+            throw new LambdaError('User not found', ClientErrorCodes.NOT_FOUND);
+          }
+
           return response(SuccessCodes.OK, {
             user: result,
           });
@@ -54,25 +58,25 @@ describe('deleteUserById', () => {
     );
   });
 
-  test('should delete an existing user by its uid', async () => {
-    mockedUserRepository.__delete.mockResolvedValue(MOCK_USER);
+  test('should fetch an existing user by its uid', async () => {
+    mockedUserRepository.get.mockResolvedValue(MOCK_USER);
 
     MOCK_EVENT.pathParameters = { userId: MOCK_USER.id.toString() };
 
     MOCK_RESPONSE.body = JSON.stringify({ user: MOCK_USER });
     MOCK_RESPONSE.statusCode = SuccessCodes.OK;
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedFindUserById(MOCK_EVENT)).resolves.toEqual(
       MOCK_RESPONSE
     );
   });
 
-  test('should catch an error when trying to delete a non-existant uid', async () => {
-    mockedUserRepository.__delete.mockRejectedValue(new Error());
+  test('should catch an error when trying to fetch a non-existant uid', async () => {
+    mockedUserRepository.get.mockRejectedValue(new Error());
 
     MOCK_EVENT.pathParameters = { userId: MOCK_USER.id.toString() };
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedFindUserById(MOCK_EVENT)).resolves.toEqual(
       MOCK_ERROR_HANDLER_RETURN_VALUE
     );
   });
@@ -86,7 +90,7 @@ describe('deleteUserById', () => {
     MOCK_ERROR_HANDLER_RETURN_VALUE.statusCode =
       ClientErrorCodes.UNPROCESSABLE_ENTITY;
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedFindUserById(MOCK_EVENT)).resolves.toEqual(
       MOCK_ERROR_HANDLER_RETURN_VALUE
     );
   });
@@ -100,7 +104,22 @@ describe('deleteUserById', () => {
     MOCK_ERROR_HANDLER_RETURN_VALUE.statusCode =
       ClientErrorCodes.UNPROCESSABLE_ENTITY;
 
-    await expect(mockedDeleteUserById(MOCK_EVENT)).resolves.toEqual(
+    await expect(mockedFindUserById(MOCK_EVENT)).resolves.toEqual(
+      MOCK_ERROR_HANDLER_RETURN_VALUE
+    );
+  });
+
+  test('should catch an error when user not found', async () => {
+    mockedUserRepository.get.mockResolvedValue(null);
+
+    MOCK_EVENT.pathParameters = { userId: MOCK_USER.id.toString() };
+
+    MOCK_ERROR_HANDLER_RETURN_VALUE.body = JSON.stringify({
+      error: 'User not found',
+    });
+    MOCK_ERROR_HANDLER_RETURN_VALUE.statusCode = ClientErrorCodes.NOT_FOUND;
+
+    await expect(mockedFindUserById(MOCK_EVENT)).resolves.toEqual(
       MOCK_ERROR_HANDLER_RETURN_VALUE
     );
   });

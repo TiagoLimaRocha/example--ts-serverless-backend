@@ -13,7 +13,7 @@ import { User } from 'src/repository/user/types';
 
 const mockedCreateUser: jest.Mock = jest.fn();
 
-describe('Create User Lambda', () => {
+describe('createUser', () => {
   beforeEach(async () => {
     jest.clearAllMocks();
 

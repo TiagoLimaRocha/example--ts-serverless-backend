@@ -22,7 +22,7 @@ export const updateUserById = async (
   try {
     const { body, pathParameters } = event;
 
-    const identifier = match(pathParameters)
+    const identifier = await match(pathParameters)
       .on(
         (pathParameters: UserPathParameters) => isUserId(pathParameters),
         () => parseInt(pathParameters.userId)
