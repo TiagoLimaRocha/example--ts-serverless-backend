@@ -13,6 +13,9 @@
     "lib": ["es2017", "dom", "ES2020.Promise"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
     "baseUrl": ".",
     "paths": {
       "src/*": ["packages/lambdas/src/*"]
