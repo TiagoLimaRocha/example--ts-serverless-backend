@@ -1,4 +1,4 @@
-import * as UserRepository from 'src/repository/user';
+import * as UserRepository from 'src/repositories/user';
 
 import {
   errorHandler,
@@ -10,7 +10,7 @@ import {
 
 import { LambdaError } from 'src/libs/errors';
 
-import { User } from 'src/repository/user/types';
+import { User } from 'src/repositories/user/types';
 import { SuccessCodes } from 'src/libs/utils/response/types';
 import { ClientErrorCodes } from 'src/libs/errors/types';
 import { UserPathParameters } from 'src/handlers/user/types';
