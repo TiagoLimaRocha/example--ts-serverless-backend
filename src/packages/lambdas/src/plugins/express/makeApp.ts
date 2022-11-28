@@ -28,6 +28,7 @@ const makeApp = (): express.Express => {
     .map((path: any) =>
       Object.values(path).map((method: any) => ({
         [method.operationId]: async (request: Request, response: Response) => {
+          // @ts-ignore
           expressHandler(Lambdas[method.operationId], request, response);
         },
       }))
@@ -38,6 +39,7 @@ const makeApp = (): express.Express => {
     (acc: object, handler: any) => {
       const [key, value] = Object.entries(handler).flat();
 
+      // @ts-ignore
       acc[`${key}`] = value;
 
       return acc;

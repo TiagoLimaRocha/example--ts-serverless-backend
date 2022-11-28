@@ -5,11 +5,7 @@ import { Prisma } from '@prisma/client';
 import { LambdaError, ServerError, PrismaError } from 'src/libs/errors';
 
 import { APIGatewayEvent } from 'aws-lambda';
-import {
-  ClientErrorCodes,
-  ServerErrorCodes,
-  ErrorCode,
-} from 'src/libs/errors/types';
+import { ClientErrorCodes, ServerErrorCodes } from 'src/libs/errors/types';
 
 /**
  * Handles errors comming from API calls, and logs out the metadata
@@ -20,17 +16,13 @@ import {
  * @param statusCode The error status code
  * @returns The appropriate error object
  */
-export const errorHandler = (
-  error: Error,
-  event: APIGatewayEvent,
-  statusCode?: ErrorCode
-) => {
+export const errorHandler = (error: Error, event: APIGatewayEvent) => {
   logger.error({ error, event });
 
   const matchedError = match(error)
     .on(
       (error: Error) => error.name === 'Lambda Error',
-      () => new LambdaError(error.message, statusCode)
+      () => error
     )
     .on(
       (error: Error) => error instanceof Prisma.PrismaClientKnownRequestError,

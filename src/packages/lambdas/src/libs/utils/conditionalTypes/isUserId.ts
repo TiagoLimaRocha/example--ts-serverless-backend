@@ -1,12 +1,8 @@
-import {
-  UserPathParameters,
-  UserPathParameterId,
-} from 'src/handlers/user/types';
+import { UserPathParameterId } from 'src/handlers/user/types';
+import { APIGatewayProxyEventPathParameters } from 'aws-lambda';
 
-const isUserId = (
-  pathParameters: UserPathParameters
+export const isUserId = (
+  pathParameters: APIGatewayProxyEventPathParameters
 ): pathParameters is UserPathParameterId => {
   return (<UserPathParameterId>pathParameters).userId !== undefined;
 };
-
-export default isUserId;

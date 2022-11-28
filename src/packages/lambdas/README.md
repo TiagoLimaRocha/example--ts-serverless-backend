@@ -126,7 +126,7 @@ Recommended further reading
 | src/plugins/prisma   | Prisma client and mock singleton                        |
 | src/plugins/winston  | Winston client                                          |
 | src/prisma           | All prisma migrations and schema                        |
-| src/repository       | All domain repositories                                 |
+| src/repositories       | All domain repositories                                 |
 
 ---
 

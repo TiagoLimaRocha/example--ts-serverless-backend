@@ -1,9 +1,9 @@
-import { User } from 'src/repository/user/types';
+import { User, UserMock } from 'src/repositories/user/types';
 
 export const MOCK_USERNAME = 'mock_user';
 
-export const MOCK_USER_LIST: User[] = [...Array(10).keys()].map(
-  (key: number): User => {
+export const MOCK_USER_LIST: UserMock[] = [...Array(10).keys()].map(
+  (key: number): UserMock => {
     const identifier: string = `${MOCK_USERNAME}_${key}`;
 
     return {
@@ -17,3 +17,5 @@ export const MOCK_USER_LIST: User[] = [...Array(10).keys()].map(
     };
   }
 );
+
+export const MOCK_USER = MOCK_USER_LIST[0];

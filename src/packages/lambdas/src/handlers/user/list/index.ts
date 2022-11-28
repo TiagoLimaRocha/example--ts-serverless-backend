@@ -1,8 +1,8 @@
-import * as UserRepository from 'src/repository/user';
+import * as UserRepository from 'src/repositories/user';
 import { errorHandler, response } from 'src/libs/utils';
 
 import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
-import { User } from 'src/repository/user/types';
+import { User } from 'src/repositories/user/types';
 import { SuccessCodes } from 'src/libs/utils/response/types';
 
 export const listUsers = async (
@@ -11,10 +11,14 @@ export const listUsers = async (
   try {
     const { offset, pageSize } = event?.queryStringParameters || {};
 
-    const result: User[] = await UserRepository.list(
-      parseInt(pageSize),
-      parseInt(offset)
-    );
+    const args = [];
+
+    if (offset && pageSize) {
+      args.push(parseInt(pageSize));
+      args.push(parseInt(offset));
+    }
+
+    const result: User[] = await UserRepository.list(...args);
 
     return response(SuccessCodes.OK, {
       users: result,

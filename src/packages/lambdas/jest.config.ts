@@ -13,4 +13,8 @@ export default {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/packages/lambdas',
+  collectCoverageFrom: [
+    'src/handlers/user/create/**/*.ts',
+    'src/repositories/user/**/*.ts',
+  ],
 };
