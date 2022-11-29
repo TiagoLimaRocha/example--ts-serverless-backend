@@ -3,7 +3,7 @@ import * as YAML from 'yamljs';
 import * as path from 'path';
 import * as Lambdas from 'src/handlers';
 
-import { expressHandler } from 'src/libs/middleware/express';
+import { expressHandler } from 'src/middleware/express/lambdaHandler';
 
 import { Request, Response } from 'express';
 
