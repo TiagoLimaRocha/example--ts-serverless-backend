@@ -147,9 +147,9 @@ Recommended further reading
 ---
 
 - [x] User Repository Implementation
-- [ ] User Repository Unit Tests
+- [x] User Repository Unit Tests
 - [x] User Service Implementation
-- [ ] User Service Unit Tests
+- [x] User Service Unit Tests
 
 ---
 
