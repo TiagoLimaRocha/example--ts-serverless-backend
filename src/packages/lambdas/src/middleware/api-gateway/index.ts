@@ -9,7 +9,7 @@ AWS.config.region = process.env.AWS_REGION;
  * @param {string} restApiId
  * @returns {<PromiseResult<AWS.APIGateway.ExportResponse, AWS.AWSError>>}
  */
-const getExport = async (restApiId: string) => {
+export const getExport = async (restApiId: string) => {
   const apiGateway = new AWS.APIGateway();
 
   const parameters = {
@@ -22,4 +22,4 @@ const getExport = async (restApiId: string) => {
   return apiGateway.getExport(parameters).promise();
 };
 
-export default getExport;
+

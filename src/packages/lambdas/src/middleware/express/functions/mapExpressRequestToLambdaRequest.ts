@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { LambdaRequest } from './types';
+import { LambdaRequest } from '../types';
 
 /**
  * Converts an uri with colon-based parameters to brackets-based parameters
@@ -11,7 +11,7 @@ import { LambdaRequest } from './types';
 const mapPathToApiGateway = (path: string): string =>
   path.replace(/:(.+?)\b/g, '{$1}');
 
-const mapExpressRequestToLambdaRequest = (request: Request): LambdaRequest => ({
+export const mapExpressRequestToLambdaRequest = (request: Request): LambdaRequest => ({
   resource: mapPathToApiGateway(request.route.path),
   pathParameters: request.params,
   queryStringParameters: request.query,
@@ -19,5 +19,3 @@ const mapExpressRequestToLambdaRequest = (request: Request): LambdaRequest => ({
   body: request.body,
   httpMethod: request.method,
 });
-
-export default mapExpressRequestToLambdaRequest;
