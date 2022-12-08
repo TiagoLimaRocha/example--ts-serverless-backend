@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { LambdaFn } from './types';
+import { LambdaFn } from '../types';
 
-import mapExpressRequestToLambdaRequest from './mapExpressRequestToLambdaRequest';
+import { mapExpressRequestToLambdaRequest } from './mapExpressRequestToLambdaRequest';
 
 /**
  * Calls respective api handler and sends a express response on lambda done callback.
@@ -9,7 +9,7 @@ import mapExpressRequestToLambdaRequest from './mapExpressRequestToLambdaRequest
  * @param request Express request object
  * @param response Express response object
  */
-const expressHandler = async (
+export const expressHandler = async (
   lambdaFn: LambdaFn,
   request: Request,
   response: Response
@@ -18,5 +18,3 @@ const expressHandler = async (
 
   response.send(await lambdaFn(lambdaRequest));
 };
-
-export default expressHandler;

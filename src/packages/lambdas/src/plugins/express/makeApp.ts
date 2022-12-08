@@ -3,7 +3,7 @@ import * as YAML from 'yamljs';
 import * as path from 'path';
 import * as Lambdas from 'src/handlers';
 
-import { expressHandler } from 'src/middleware/express/lambdaHandler';
+import { expressHandler, authorise } from 'src/middleware/express';
 
 import { Request, Response } from 'express';
 
@@ -18,6 +18,7 @@ const makeApp = (): express.Express => {
   const app = express();
 
   app.use(express.json());
+  app.use(authorise);
 
   //  NOTE:  Here we are using a spec yaml file directly, however we could switch out this call by
   //         a getExport call passing in the API ID from AWS API Gateway, thus exporting the api spec
