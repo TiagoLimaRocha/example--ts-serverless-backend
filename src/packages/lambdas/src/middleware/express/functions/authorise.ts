@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { ClientErrorCodes, ServerErrorCodes } from 'src/libs/errors/types';
 
-import { validateToken } from 'src/repositories/auth/jwt';
+import { validateToken } from 'src/repositories/auth';
 
 const PREFIX = 'bearer';
 

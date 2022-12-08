@@ -115,18 +115,12 @@ Recommended further reading
 | src/assets           | All general assets (i.e. api spec)                      |
 | src/environments     | All nx environments                                     |
 | src/handlers         | All handler services                                    |
-| src/handlers/express | All express handler services for development purposes   |
-| src/handlers/lambda  | All AWS Lambda handler services for production purposes |
+| src/handlers         | All AWS Lambda handler services                         |
 | src/libs             | All general use code                                    |
-| src/libs/errors      | All general use Errors/Exceptions                       |
-| src/libs/middleware  | All general use middleware                              |
-| src/libs/utils       | All general use helper methods                          |
+| src/middleware       | All general use middleware                              |
 | src/plugins          | All plugin installations                                |
-| src/plugins/express  | Express server initialisation                           |
-| src/plugins/prisma   | Prisma client and mock singleton                        |
-| src/plugins/winston  | Winston client                                          |
 | src/prisma           | All prisma migrations and schema                        |
-| src/repositories       | All domain repositories                                 |
+| src/repositories     | All domain repositories                                 |
 
 ---
 

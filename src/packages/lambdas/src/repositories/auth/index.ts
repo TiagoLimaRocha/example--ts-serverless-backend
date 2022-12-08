@@ -3,7 +3,7 @@ import { sign, verify, SignOptions, VerifyOptions } from 'jsonwebtoken';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
-import { SignPayload, VerifyPayload } from 'src/repositories/auth/jwt/types';
+import { SignPayload, VerifyPayload } from 'src/repositories/auth/types';
 
 const PATH_TO_PRIVATE_PEM = './assets/keys/private.pem';
 const PATH_TO_PUBLIC_PEM = './assets/keys/public.pem';
