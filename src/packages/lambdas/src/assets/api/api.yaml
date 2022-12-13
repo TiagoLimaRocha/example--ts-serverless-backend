@@ -35,15 +35,15 @@ tags:
       description: Find out more about our store
       url: http://swagger.io
 paths:
-  /user:
+  /signup:
     post:
       tags:
         - user
-      summary: Create user
+      summary: Create new user and new user session
       description: This can only be done by the logged in user.
       operationId: createUser
       requestBody:
-        description: Created user object
+        description: User object
         content:
           application/json:
             schema:

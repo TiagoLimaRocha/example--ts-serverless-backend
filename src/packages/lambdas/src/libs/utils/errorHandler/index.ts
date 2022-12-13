@@ -2,9 +2,9 @@ import { match } from 'src/libs/utils';
 import { logger } from 'src/plugins/winston';
 
 import { Prisma } from '@prisma/client';
-import { LambdaError, ServerError, PrismaError } from 'src/libs/errors';
+import { ServerError, PrismaError } from 'src/libs/errors';
 
-import { APIGatewayEvent } from 'aws-lambda';
+import { APIGatewayEvent, APIGatewayAuthorizerEvent } from 'aws-lambda';
 import { ClientErrorCodes, ServerErrorCodes } from 'src/libs/errors/types';
 
 /**
@@ -16,7 +16,10 @@ import { ClientErrorCodes, ServerErrorCodes } from 'src/libs/errors/types';
  * @param statusCode The error status code
  * @returns The appropriate error object
  */
-export const errorHandler = (error: Error, event: APIGatewayEvent) => {
+export const errorHandler = (
+  error: Error,
+  event: APIGatewayEvent | APIGatewayAuthorizerEvent
+) => {
   logger.error({ error, event });
 
   const matchedError = match(error)

@@ -21,6 +21,3 @@ export const getExport = async (restApiId: string) => {
 
   return apiGateway.getExport(parameters).promise();
 };
-
-
->>>>>>> feature/auth-repository
