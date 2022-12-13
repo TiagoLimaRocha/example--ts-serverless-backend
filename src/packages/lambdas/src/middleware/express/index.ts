@@ -1,10 +1,10 @@
 import { asyncWrap } from './functions/asyncWrap';
-import { authorise } from './functions/authorise';
+import { authorizer } from './functions/authorizer';
 import { expressHandler } from './functions/expressHandler';
 import { mapExpressRequestToLambdaRequest } from './functions/mapExpressRequestToLambdaRequest';
 
 export {
-  authorise,
+  authorizer,
   asyncWrap,
   expressHandler,
   mapExpressRequestToLambdaRequest,

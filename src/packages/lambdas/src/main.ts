@@ -1,4 +1,10 @@
 import { makeApp } from 'src/plugins/express';
+import { createToken, validateToken } from 'src/repositories/auth';
+
+const token = createToken({ username: 'new_mock_username' });
+
+console.log('CREATE_TOKEN --> ', token);
+console.log('VALIDATE_TOKEN --> ', validateToken(token));
 
 const app = makeApp();
 

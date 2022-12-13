@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import * as express from 'express';
 import * as YAML from 'yamljs';
 import * as path from 'path';
 import * as Lambdas from 'src/handlers';
 
-import { expressHandler, authorise } from 'src/middleware/express';
+import { expressHandler, authorizer } from 'src/middleware/express';
 
 import { Request, Response } from 'express';
 
@@ -18,7 +19,7 @@ const makeApp = (): express.Express => {
   const app = express();
 
   app.use(express.json());
-  app.use(authorise);
+  app.use(authorizer);
 
   //  NOTE:  Here we are using a spec yaml file directly, however we could switch out this call by
   //         a getExport call passing in the API ID from AWS API Gateway, thus exporting the api spec
@@ -29,6 +30,7 @@ const makeApp = (): express.Express => {
     .map((path: any) =>
       Object.values(path).map((method: any) => ({
         [method.operationId]: async (request: Request, response: Response) => {
+
           // @ts-ignore
           expressHandler(Lambdas[method.operationId], request, response);
         },

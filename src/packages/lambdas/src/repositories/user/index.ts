@@ -3,7 +3,13 @@ import { PrismaClient } from '@prisma/client';
 import { prisma } from 'src/plugins/prisma/client';
 import { assertWhereClause } from 'src/libs/utils';
 
-import { User, Identifier, DEFAULT_OFFSET, DEFAULT_PAGE_SIZE } from './types';
+import {
+  User,
+  UserUpdate,
+  Identifier,
+  DEFAULT_OFFSET,
+  DEFAULT_PAGE_SIZE,
+} from './types';
 
 export const create = (user: User): Promise<User> => {
   const prismaClient = new PrismaClient();
@@ -13,12 +19,18 @@ export const create = (user: User): Promise<User> => {
   });
 };
 
-export const update = (user: User, identifier: Identifier): Promise<User> => {
+export const update = async (
+  user: UserUpdate,
+  identifier: Identifier
+): Promise<User> => {
   const where = assertWhereClause(identifier);
+
+  const data = await get(identifier);
 
   return prisma.user.update({
     where,
     data: {
+      ...data,
       ...user,
       createdAt: new Date().toISOString(),
     },

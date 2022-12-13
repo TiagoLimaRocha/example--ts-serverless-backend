@@ -1,7 +1,7 @@
 import { match } from 'src/libs/utils';
-import { Identifier } from './types';
+import { Identifier, Result } from './types';
 
-export const assertWhereClause = (identifier: Identifier): any =>
+export const assertWhereClause = (identifier: Identifier): Result =>
   match(identifier)
     .on(
       (identifier: Identifier) => typeof identifier === 'string',

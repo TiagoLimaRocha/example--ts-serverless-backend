@@ -17,5 +17,6 @@ model User {
   firstName String
   lastName String
   phone String
+  token String
   createdAt DateTime @default(now())
 }

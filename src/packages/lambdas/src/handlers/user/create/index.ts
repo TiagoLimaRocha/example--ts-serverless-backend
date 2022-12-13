@@ -1,4 +1,5 @@
 import * as UserRepository from 'src/repositories/user';
+import * as AuthRepository from 'src/repositories/auth';
 
 import { errorHandler, response, getData } from 'src/libs/utils';
 
@@ -14,11 +15,13 @@ export const createUser = async (
   try {
     const { body } = event;
 
-    const userData: User = getData(body);
+    const userData = getData<User>(body);
 
     if (!body) {
       throw new LambdaError('Missing request body');
     }
+
+    userData.token = AuthRepository.createToken({ username: userData.username });
 
     const result = await UserRepository.create(userData);
 
