@@ -1,5 +1,3 @@
-import { PrismaClient } from '@prisma/client';
-
 import { prisma } from 'src/plugins/prisma/client';
 import { assertWhereClause } from 'src/libs/utils';
 
@@ -11,13 +9,10 @@ import {
   DEFAULT_PAGE_SIZE,
 } from './types';
 
-export const create = (user: User): Promise<User> => {
-  const prismaClient = new PrismaClient();
-
-  return prismaClient.user.create({
+export const create = (user: User): Promise<User> =>
+  prisma.user.create({
     data: user,
   });
-};
 
 export const update = async (
   user: UserUpdate,

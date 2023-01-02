@@ -15,15 +15,22 @@ export const createUser = async (
   try {
     const { body } = event;
 
-    const userData = getData<User>(body);
-
     if (!body) {
       throw new LambdaError('Missing request body');
     }
 
-    userData.token = AuthRepository.createToken({ username: userData.username });
+    const userData = getData<User>(body);
 
-    const result = await UserRepository.create(userData);
+    const hashedPassword = await AuthRepository.hashPassword(userData.password);
+    const authToken = AuthRepository.createToken({
+      username: userData.username,
+    });
+
+    const result = await UserRepository.create({
+      ...userData,
+      token: authToken,
+      password: hashedPassword,
+    });
 
     return response(SuccessCodes.CREATED, {
       user: result,

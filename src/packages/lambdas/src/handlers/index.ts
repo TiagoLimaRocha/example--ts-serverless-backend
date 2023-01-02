@@ -4,6 +4,8 @@ import { deleteUserById, deleteUserByUsername } from 'src/handlers/user/delete';
 import { findUserById, findUserByUsername } from 'src/handlers/user/find';
 import { listUsers } from 'src/handlers/user/list';
 
+import { login } from 'src/handlers/auth/login';
+
 export {
   createUser,
   updateUserById,
@@ -13,4 +15,5 @@ export {
   findUserById,
   findUserByUsername,
   listUsers,
+  login
 };

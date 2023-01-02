@@ -4,7 +4,7 @@ const DEFAULT_STATUS_CODE = 500;
 
 class ServerError extends Error {
   public statusCode: ErrorCode = DEFAULT_STATUS_CODE;
-  public name: string = 'Server Error';
+  public name = 'Server Error';
 
   constructor(message: string, statusCode?: ErrorCode) {
     super(message);

@@ -17,7 +17,6 @@ export const authorizer = async (
   event: APIGatewayTokenAuthorizerEvent
 ): Promise<APIGatewayAuthorizerResult> => {
   try {
-    // TODO: Implement your custom authorizer logic here
     const { authorizationToken } = event || {};
 
     if (!authorizationToken) {

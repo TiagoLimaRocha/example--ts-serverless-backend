@@ -6,12 +6,16 @@ export interface User extends Prisma.UserCreateInput, SignPayload {
   id: number;
 }
 
+export interface UserLoginDetails {
+  username: string;
+  password: string;
+}
+
 export type UserUpdate = Prisma.UserUpdateInput;
 
 export type Identifier = XOR<string, number>;
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type UserMock = any & (User | Prisma.Prisma__UserClient<User>);
 
 export const DEFAULT_OFFSET = 0;
