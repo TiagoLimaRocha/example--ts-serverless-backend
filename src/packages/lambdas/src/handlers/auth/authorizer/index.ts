@@ -5,6 +5,7 @@ import { errorHandler, buildPolicyStatement } from 'src/libs/utils';
 import { LambdaError } from 'src/libs/errors';
 
 import { PolicyEffect } from 'src/libs/utils/buildPolicyStatement/types';
+import { ClientErrorCodes } from 'src/libs/errors/types';
 import {
   APIGatewayTokenAuthorizerEvent,
   APIGatewayAuthorizerResult,
@@ -30,15 +31,15 @@ export const authorizer = async (
     const decoded = AuthRepository.validateToken(jwt);
 
     if (!decoded.username) {
-      throw new LambdaError('Invalid token');
+      throw new LambdaError('Invalid token', ClientErrorCodes.FORBIDDEN);
     }
 
     if (!AuthRepository.isActiveToken(decoded)) {
-      throw new LambdaError('Expired token');
+      throw new LambdaError('Expired token', ClientErrorCodes.FORBIDDEN);
     }
 
     if (await AuthRepository.isRevokedToken(jwt)) {
-      throw new LambdaError('Revoked token');
+      throw new LambdaError('Revoked token', ClientErrorCodes.FORBIDDEN);
     }
 
     const newToken = `Bearer ${AuthRepository.createToken(decoded)}`;

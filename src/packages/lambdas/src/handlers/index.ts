@@ -5,6 +5,7 @@ import { findUserById, findUserByUsername } from 'src/handlers/user/find';
 import { listUsers } from 'src/handlers/user/list';
 
 import { login } from 'src/handlers/auth/login';
+import { logout } from 'src/handlers/auth/logout';
 
 export {
   createUser,
@@ -15,5 +16,6 @@ export {
   findUserById,
   findUserByUsername,
   listUsers,
-  login
+  login,
+  logout,
 };

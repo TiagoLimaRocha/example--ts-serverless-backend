@@ -17,7 +17,7 @@ export const login = async (
     const { body } = event || {};
 
     if (!body) {
-      throw new LambdaError('Missing request body');
+      throw new LambdaError('Missing request body', ClientErrorCodes.BAD_REQUEST);
     }
 
     const { username, password } = getData<UserLoginDetails>(body) || {};

@@ -71,40 +71,33 @@ paths:
       responses:
         '200':
           description: successful operation
-          headers:
-            X-Rate-Limit:
-              description: calls per hour allowed by the user
-              style: simple
-              explode: false
-              schema:
-                type: integer
-                format: int32
-            X-Expires-After:
-              description: date in UTC when token expires
-              style: simple
-              explode: false
-              schema:
-                type: string
-                format: date-time
           content:
             application/json:
-              schema:
-                type: string
-            application/xml:
               schema:
                 type: string
         '400':
           description: Invalid username/password supplied
 
   /logout:
-    get:
+    post:
       tags:
         - user
       summary: Logs out current logged in user session
       operationId: logout
+      requestBody:
+        required: true
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LoginDetails'
       responses:
-        default:
+        '200':
           description: successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username supplied
 
   /user/list:
     get:
@@ -337,6 +330,14 @@ components:
           type: string
       xml:
         name: LoginDetails
+
+    LogoutDetails:
+      type: object
+      properties:
+        username:
+          type: string
+      xml:
+        name: LogoutDetails
 
     User:
       type: object
