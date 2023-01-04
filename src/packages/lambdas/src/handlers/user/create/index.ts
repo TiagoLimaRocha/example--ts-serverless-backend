@@ -8,6 +8,7 @@ import { SuccessCodes } from 'src/libs/utils/response/types';
 import { APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
 
 import { LambdaError } from 'src/libs/errors';
+import { ClientErrorCodes } from 'src/libs/errors/types';
 
 export const createUser = async (
   event: APIGatewayEvent
@@ -20,6 +21,17 @@ export const createUser = async (
     }
 
     const userData = getData<User>(body);
+
+    const passwordValidatorResult = AuthRepository.validatePassword(
+      userData.password
+    );
+
+    if (!passwordValidatorResult.isValid) {
+      throw new LambdaError(
+        passwordValidatorResult.message,
+        ClientErrorCodes.BAD_REQUEST
+      );
+    }
 
     const hashedPassword = await AuthRepository.hashPassword(userData.password);
     const authToken = AuthRepository.createToken({

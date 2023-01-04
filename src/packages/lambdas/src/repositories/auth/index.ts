@@ -1,5 +1,6 @@
 import { prisma } from 'src/plugins/prisma/client';
 
+import * as zxcvbn from 'zxcvbn';
 import { sign, verify, SignOptions, VerifyOptions } from 'jsonwebtoken';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -17,6 +18,7 @@ import {
   SignPayload,
   VerifyPayload,
   RevokedAuthToken,
+  PasswordValidationResponse,
 } from 'src/repositories/auth/types';
 
 const PATH_TO_PRIVATE_PEM = './assets/keys/private.pem';
@@ -108,6 +110,41 @@ export const verifyPassword = async (
   const isValid = await compare(password, hash);
 
   return isValid;
+};
+
+export const validatePassword = (
+  password: string
+): PasswordValidationResponse => {
+  // Check for minimum length
+  if (password.length < 8) {
+    return {
+      isValid: false,
+      message: 'Password must be at least 8 characters long',
+    };
+  }
+
+  // Check for maximum length
+  if (password.length > 100) {
+    return {
+      isValid: false,
+      message: 'Password must be at most 100 characters long',
+    };
+  }
+
+  // Check password strength using zxcvbn library
+  const strength = zxcvbn(password);
+  if (strength.score < 3) {
+    return {
+      isValid: false,
+      message: 'Password is too weak',
+    };
+  }
+
+  // Password is strong
+  return {
+    isValid: true,
+    message: 'Password is strong',
+  };
 };
 
 export const encryptPassword = (pwd: string, iv?: Buffer | string) => {

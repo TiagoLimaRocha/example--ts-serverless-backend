@@ -2,6 +2,11 @@ import { Prisma } from '@prisma/client';
 
 type Value = object | string | number | null | undefined;
 
+export type PasswordValidationResponse = {
+  isValid: boolean,
+  message: string
+}
+
 export interface RevokedAuthToken extends Prisma.RevokedAuthTokensCreateInput {
   id: number;
 }
