@@ -1,3 +1,5 @@
+import { prisma } from 'src/plugins/prisma/client';
+
 import { sign, verify, SignOptions, VerifyOptions } from 'jsonwebtoken';
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -11,7 +13,11 @@ import {
   randomBytes,
 } from 'crypto';
 
-import { SignPayload, VerifyPayload } from 'src/repositories/auth/types';
+import {
+  SignPayload,
+  VerifyPayload,
+  RevokedAuthToken,
+} from 'src/repositories/auth/types';
 
 const PATH_TO_PRIVATE_PEM = './assets/keys/private.pem';
 const PATH_TO_PUBLIC_PEM = './assets/keys/public.pem';
@@ -54,6 +60,25 @@ export const validateToken = (token: string) => {
   );
 
   return decoded as unknown as VerifyPayload;
+};
+
+export const revokeToken = (token: string): Promise<RevokedAuthToken> =>
+  prisma.revokedAuthTokens.create({
+    data: {
+      token,
+    },
+  });
+
+export const isRevokedToken = async (token: string): Promise<boolean> => {
+  const revokedAuthTokens = new Set<string>();
+
+  prisma.revokedAuthTokens.findMany().then((results: RevokedAuthToken[]) => {
+    results.forEach((result) => revokedAuthTokens.add(result.token));
+
+    return results;
+  });
+
+  return revokedAuthTokens.has(token);
 };
 
 export const isActiveToken = (decoded: VerifyPayload): boolean => {

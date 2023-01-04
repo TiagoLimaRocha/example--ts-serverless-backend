@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 
 const PREFIX = 'bearer';
 
-export const authorizer = (
+export const authorizer = async (
   request: Request,
   response: Response,
   next: NextFunction
@@ -33,11 +33,15 @@ export const authorizer = (
     }
 
     if (!AuthRepository.isActiveToken(decoded)) {
-      response
+      return response
         .status(ClientErrorCodes.UNAUTHORIZED)
         .json({ message: 'Expired token' });
+    }
 
-      return;
+    if (await AuthRepository.isRevokedToken(jwt)) {
+      return response
+        .status(ClientErrorCodes.UNAUTHORIZED)
+        .json({ message: 'Revoked token' });
     }
 
     const header = 'authorization';

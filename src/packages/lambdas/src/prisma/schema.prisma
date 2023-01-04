@@ -11,13 +11,19 @@ datasource db {
 }
 
 model User {
-  id    Int         @id @default(autoincrement())
-  email String      @unique
-  username  String  @unique
-  password String   @unique
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  username  String   @unique
+  password  String   @unique
   firstName String
-  lastName String
-  phone String
-  token String
+  lastName  String
+  phone     String
+  token     String
+  createdAt DateTime @default(now())
+}
+
+model RevokedAuthTokens {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
   createdAt DateTime @default(now())
 }

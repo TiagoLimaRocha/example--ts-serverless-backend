@@ -11,6 +11,10 @@ export interface UserLoginDetails {
   password: string;
 }
 
+export interface UserLogoutDetails {
+  username: string;
+}
+
 export type UserUpdate = Prisma.UserUpdateInput;
 
 export type Identifier = XOR<string, number>;

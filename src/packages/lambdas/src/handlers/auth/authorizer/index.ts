@@ -37,6 +37,10 @@ export const authorizer = async (
       throw new LambdaError('Expired token');
     }
 
+    if (await AuthRepository.isRevokedToken(jwt)) {
+      throw new LambdaError('Revoked token');
+    }
+
     const newToken = `Bearer ${AuthRepository.createToken(decoded)}`;
 
     UserRepository.update({ token: newToken }, 'new_mock_username');
