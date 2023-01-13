@@ -39,7 +39,7 @@ export const login = async (
     const token = AuthRepository.createToken({ username });
     await UserRepository.update({ ...user, token }, username);
 
-    return response(SuccessCodes.ACCEPTED, {});
+    return response(SuccessCodes.OK, {});
   } catch (error) {
     return errorHandler(error, event);
   }

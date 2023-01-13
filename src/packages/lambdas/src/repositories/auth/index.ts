@@ -153,8 +153,6 @@ export const encryptPassword = (pwd: string, iv?: Buffer | string) => {
 
   const cipher: Cipher = createCipheriv(SYMETRIC_ALGORITHM, key, innitVector);
 
-  console.log(1, 'Cipher: ', cipher);
-
   const encrypted = `${cipher.update(pwd, 'utf8', 'hex')}${cipher.final(
     'hex'
   )}`;
